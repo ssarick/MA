@@ -30,20 +30,27 @@
       </v-file-input>
     </v-col>
     <v-col class="mt-5 text-center">
-      <v-btn large color="primary" @click="uploadFiles(files, type)"
+      <v-btn large color="primary" @click="upload(files, type)"
         >Send</v-btn
       >
     </v-col>
     <v-col class="mt-5 text-center">
-      <v-btn v-if="!processedFile" large color="success" @click="save"
+      <v-btn large color="success" @click="save"
         >Download</v-btn
       >
+    </v-col>
+    <v-col>
+      <v-img
+          :aspect-ratio="16/9"
+          :width="300"
+      ></v-img>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'FunctionsPage',
@@ -59,39 +66,17 @@ export default {
   },
   data: () => ({
     files: [],
-    processedFile: [],
+    processedFile: null,
   }),
   methods: {
-    uploadFiles(documents, transformType) {
-      return new Promise((resolve, reject) => {
-        let result = []
-        const formData = new FormData()
-        documents.forEach((item, i) => {
-          formData.append(i, item)
-        })
-        axios
-          .post(
-            'uploadImg',
-            {
-              img: formData,
-              'transform-type': transformType,
-            },
-            {
-              params: {
-                headers: { 'Content-Type': 'multipart/form-data' },
-              },
-            }
-          )
-          .then((res) => {
-            this.processedFile = res
-            result = res
-          })
-          .catch((err) => reject(err))
-        resolve(result)
+    ...mapActions("upload",['uploadFiles']),
+    upload(documents, transformType) {
+      this.uploadFiles({documents, transformType}).then(res => {
+        console.log(res)
+        this.processedFile = res
       })
     },
     save() {
-      //
     },
   },
 }
