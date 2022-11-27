@@ -1,18 +1,14 @@
 <template>
-  <Upload title="Less Noise" type="5"/>
-
+  <Upload title="Less Noise" type="5" />
 </template>
 
 <script>
-import Upload from "@/components/upload";
+import Upload from '@/components/upload'
 
 export default {
-name: "volume",
-  components: {Upload}
-
+  name: 'Volume',
+  components: { Upload },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

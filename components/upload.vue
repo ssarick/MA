@@ -5,15 +5,15 @@
     </v-col>
     <v-col>
       <v-file-input
-          v-model="files"
-          color=" primary accent-4"
-          counter
-          label="File input"
-          multiple
-          placeholder="Select your files"
-          prepend-icon="mdi-paperclip"
-          outlined
-          :show-size="1000"
+        v-model="files"
+        color=" primary accent-4"
+        counter
+        label="File input"
+        multiple
+        placeholder="Select your files"
+        prepend-icon="mdi-paperclip"
+        outlined
+        :show-size="1000"
       >
         <template #selection="{ index, text }">
           <v-chip v-if="index < 2" color="primary accent-4" dark label small>
@@ -21,8 +21,8 @@
           </v-chip>
 
           <span
-              v-else-if="index === 2"
-              class="text-overline grey--text text--darken-3 mx-2"
+            v-else-if="index === 2"
+            class="text-overline grey--text text--darken-3 mx-2"
           >
             +{{ files.length - 2 }} File(s)
           </span>
@@ -30,61 +30,69 @@
       </v-file-input>
     </v-col>
     <v-col class="mt-5 text-center">
-      <v-btn large color="primary" @click="uploadFiles(files, type)">Send</v-btn>
+      <v-btn large color="primary" @click="uploadFiles(files, type)"
+        >Send</v-btn
+      >
     </v-col>
     <v-col class="mt-5 text-center">
-      <v-btn v-if="!processedFile" large color="success" @click="save">Download</v-btn>
+      <v-btn v-if="!processedFile" large color="success" @click="save"
+        >Download</v-btn
+      >
     </v-col>
   </v-row>
 </template>
 
 <script>
-
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   name: 'FunctionsPage',
+  props: {
+    title: {
+      type: String,
+      default: () => ' ',
+    },
+    type: {
+      type: String,
+      default: () => ' ',
+    },
+  },
   data: () => ({
     files: [],
-    processedFile: []
+    processedFile: [],
   }),
-  props: {
-    title:{
-      type: String,
-      default: () => " "
-    },
-    type:{
-      type: String,
-      default: () => " "
-    }
-  },
   methods: {
     uploadFiles(documents, transformType) {
-      return new Promise( (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         let result = []
         const formData = new FormData()
         documents.forEach((item, i) => {
           formData.append(i, item)
         })
-        axios.post('uploadImg', {
-          img: formData,
-          'transform-type': transformType
-        }, {
-          params: {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          },
-        })
-            .then((res) => {
-              this.processedFile = res
-              result = res
-            })
-            .catch((err) => reject(err))
+        axios
+          .post(
+            'uploadImg',
+            {
+              img: formData,
+              'transform-type': transformType,
+            },
+            {
+              params: {
+                headers: { 'Content-Type': 'multipart/form-data' },
+              },
+            }
+          )
+          .then((res) => {
+            this.processedFile = res
+            result = res
+          })
+          .catch((err) => reject(err))
         resolve(result)
       })
     },
-    save(){
+    save() {
       //
-    }
+    },
   },
 }
 </script>

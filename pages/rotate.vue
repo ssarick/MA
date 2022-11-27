@@ -1,17 +1,14 @@
 <template>
-  <Upload title="Rotate Image" type="1"/>
+  <Upload title="Rotate Image" type="1" />
 </template>
 
 <script>
-import Upload from "@/components/upload";
+import Upload from '@/components/upload'
 
 export default {
-  name: "rotate",
-  components: {Upload}
-
+  name: 'Rotate',
+  components: { Upload },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
